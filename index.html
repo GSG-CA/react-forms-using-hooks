@@ -15,14 +15,69 @@
     <script type="text/babel">
       const root = document.getElementById('root');
 
-      const TempConverter = () => {
-        return (
-          <form>
-            <h1>Temperature converter</h1>
-            <output>converted output goes here</output>
-          </form>
-        );
-      };
+      const celsiusToFahrenheit = c => Math.round((c * 9) / 5 + 32);
+      const fahrenheitToCelsius = f => Math.round(((f - 32) * 5) / 9);
+
+      class TempConverter extends React.Component {
+        state = {
+          scale: 'celsius',
+          temp: '',
+        };
+
+        handleScaleChange = event => {
+          this.setState({ scale: event.target.value });
+        };
+
+        handleTempChange = event => {
+          this.setState({ temp: event.target.value });
+        };
+
+        render() {
+          const { scale, temp } = this.state;
+          return (
+            <form>
+              <h1>Temperature converter</h1>
+              <fieldset>
+                <legend>Scale</legend>
+                <label htmlFor='celsius'>Celsius</label>
+                <input
+                  type='radio'
+                  name='scale'
+                  id='celsius'
+                  value='celsius'
+                  checked={'celsius' === scale}
+                  onChange={this.handleScaleChange}
+                />
+                <label htmlFor='fahrenheit'>Fahrenheit</label>
+                <input
+                  type='radio'
+                  name='scale'
+                  id='fahrenheit'
+                  value='fahrenheit'
+                  checked={'fahrenheit' === scale}
+                  onChange={this.handleScaleChange}
+                />
+              </fieldset>
+              <label htmlFor='temp'>Temperature</label>
+              <input
+                type='number'
+                id='temp'
+                value={temp}
+                onChange={this.handleTempChange}
+              />
+              <div>
+                {temp && (
+                  <output>
+                    {scale === 'celsius'
+                      ? celsiusToFahrenheit(temp) + 'F'
+                      : fahrenheitToCelsius(temp) + 'C'}
+                  </output>
+                )}
+              </div>
+            </form>
+          );
+        }
+      }
 
       const App = () => <TempConverter />;
 
