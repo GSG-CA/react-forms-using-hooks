@@ -17,23 +17,18 @@
       const celsiusToFahrenheit = c => Math.round((c * 9) / 5 + 32);
       const fahrenheitToCelsius = f => Math.round(((f - 32) * 5) / 9);
 
-      class TempConverter extends React.Component {
-        state = {
-          scale: 'celsius',
-          temp: '',
+      function TempConverter(){
+        const [scale, setScale] = React.useState('celsius');
+        const [temp, setTemp] = React.useState('')
+
+        const handleScaleChange = event => {
+         setScale(event.target.value);
         };
 
-        handleScaleChange = event => {
-          this.setState({ scale: event.target.value });
+        const handleTempChange = event => {
+          setTemp(event.target.value);
         };
-
-        handleTempChange = event => {
-          this.setState({ temp: event.target.value });
-        };
-
-        render() {
-          const { scale, temp } = this.state;
-          return (
+        return (
             <form>
               <h1>Temperature converter</h1>
               <fieldset>
@@ -45,7 +40,7 @@
                   id='celsius'
                   value='celsius'
                   checked={'celsius' === scale}
-                  onChange={this.handleScaleChange}
+                  onChange={handleScaleChange}
                 />
                 <label htmlFor='fahrenheit'>Fahrenheit</label>
                 <input
@@ -54,7 +49,7 @@
                   id='fahrenheit'
                   value='fahrenheit'
                   checked={'fahrenheit' === scale}
-                  onChange={this.handleScaleChange}
+                  onChange={handleScaleChange}
                 />
               </fieldset>
               <label htmlFor='temp'>Temperature</label>
@@ -62,7 +57,7 @@
                 type='number'
                 id='temp'
                 value={temp}
-                onChange={this.handleTempChange}
+                onChange={handleTempChange}
               />
               <div>
                 {temp && (
@@ -75,9 +70,8 @@
               </div>
             </form>
           );
-        }
       }
-
+      
       const App = () => <TempConverter />;
       const root = ReactDOM.createRoot(container);
       root.render(<App />);
